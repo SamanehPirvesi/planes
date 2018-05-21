@@ -127,10 +127,14 @@ public class Company {
 	}
 
 	public Map<String, Integer> getDepartedDelayList() {
-		
-	//	if (departedDelayList.values()) {
-		return departedDelayList;
-	}}
+		 Map<String, Integer> result = new TreeMap<>();
+		 for (Map.Entry<String, Integer> entry : getDepartedDelayList().entrySet()) {
+			if(entry.getValue()>15) {
+				result.put(entry.getKey(), entry.getValue());
+			}
+		 }
+		return result;
+	}
 
 	public Map<String, Integer> getArrivedDelayList() {
 		return arrivedDelayList;
