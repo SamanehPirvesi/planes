@@ -6,7 +6,7 @@ public class Flight {
 	private String departureCode;
 	private String arrivalCode;
 	private String dayOfTheWeek;
-	
+	private Company company;
 
 	public Flight(String flightCode, String planeModel, String departureCode, String arrivalCode, String dayOfTheWeek) {
 
@@ -16,6 +16,17 @@ public class Flight {
 		this.arrivalCode = arrivalCode;
 		this.dayOfTheWeek = dayOfTheWeek;
 	}
+	
+
+	public Company getCompany() {
+		return company;
+	}
+
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+
 
 	public String getFlightCode() {
 		return flightCode;

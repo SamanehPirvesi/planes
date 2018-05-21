@@ -10,19 +10,17 @@ public class Company {
 	private Map<String, Plane> planes = new TreeMap<>();
 	private Map<String, Flight> flights = new TreeMap<>();
 	private PlanesWorld planesWord;
-	private Map<String,Integer> departedDelayList=new TreeMap<>();
-	private Map<String,Integer> arrivedDelayList=new TreeMap<>();
-	
-	
+	private Map<String, Integer> departedDelayList = new TreeMap<>();
+	private Map<String, Integer> arrivedDelayList = new TreeMap<>();
+
+	public Company(String companyName, PlanesWorld planesWord) {
+
+		this.companyName = companyName;
+		this.planesWord = planesWord;
+	}
 
 	public PlanesWorld getPlanesWord() {
 		return planesWord;
-	}
-
-	public Company(String companyName ,PlanesWorld planesWord ) {
-
-		this.companyName = companyName;
-		this.planesWord=planesWord;
 	}
 
 	public String getCompanyName() {
@@ -41,7 +39,7 @@ public class Company {
 		this.planes = planes;
 	}
 
-	public Collection< Flight> getFlights() {
+	public Collection<Flight> getFlights() {
 		return flights.values();
 	}
 
@@ -58,7 +56,7 @@ public class Company {
 	public void addFlight(String flightCode, String planeModel, String departureCode, String arrivalCode,
 			String dayOfTheWeek) {
 		Flight flight = new Flight(flightCode, planeModel, departureCode, arrivalCode, dayOfTheWeek);
-
+        
 		flights.put(flightCode, flight);
 	}
 
@@ -99,42 +97,41 @@ public class Company {
 
 		return 0;
 	}
-	
-	public void departedFlight(String flightCode, int delay){
-		try {
-			if (flightCode.equals(flights.get(flightCode).getFlightCode())){
-				if(delay>0) {
-				departedDelayList.put(flightCode, delay);
-				
-				}
-			}
-		}catch (Exception e) {
-			System.out.println("the flight code is not correct");
-		}
-	
-	}
-	public void arrivedFlight(String flightCode, int delay){
-		try {
-			if (flightCode.equals(flights.get(flightCode).getFlightCode())){
-				if(delay>0) {
-				arrivedDelayList.put(flightCode, delay);
-				}
-				
-			}
-		}catch (Exception e) {
-			System.out.println("the flight code is not correct");
-		}
-	
-	}
-	
 
-//	public Collection< Integer> getDepartedDelayList() {
-//		if(departedDelayList.get(getArrivedDelayList())>15)
-//		return departedDelayList.values();
-//	}
-//
-//	public Collection< Integer> getArrivedDelayList() {
-//		return arrivedDelayList.values();
-//	}
-	
+	public void departedFlight(String flightCode, int delay) {
+		try {
+			if (flightCode.equals(flights.get(flightCode).getFlightCode())) {
+				if (delay > 0) {
+					departedDelayList.put(flightCode, delay);
+
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("the flight code is not correct");
+		}
+
+	}
+
+	public void arrivedFlight(String flightCode, int delay) {
+		try {
+			if (flightCode.equals(flights.get(flightCode).getFlightCode())) {
+				if (delay > 0) {
+					arrivedDelayList.put(flightCode, delay);
+				}
+
+			}
+		} catch (Exception e) {
+			System.out.println("the flight code is not correct");
+		}
+
+	}
+
+	public Map<String, Integer> getDepartedDelayList() {
+		return departedDelayList;
+	}
+
+	public Map<String, Integer> getArrivedDelayList() {
+		return arrivedDelayList;
+	}
+
 }
