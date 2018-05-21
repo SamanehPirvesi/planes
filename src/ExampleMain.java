@@ -1,3 +1,5 @@
+import java.util.Map;
+
 import planes.Airport;
 import planes.Company;
 import planes.Flight;
@@ -23,7 +25,7 @@ public class ExampleMain {
 		company.addFlight("aav","Boeing737", "a320", "a742", "monday");
 		company.addFlight("afv","Boeing777", "a560", "a457", "friday");
 		company.book("aav", 50);
-		company.arrivedFlight("aav", 30);
+		company.departedFlight("aav", 10);
 		company.arrivedFlight("afv",50);
 		//company.removeFlight("aav");
 		for (Airport airport:planesWorld.getAirports()) {
@@ -45,9 +47,11 @@ public class ExampleMain {
 			
 		}}
 		System.out.println(company.freeSeats("aav"));
-//		for(Integer i:company.getDepartedDelayList().values()) {
-//			System.out.println(i.);
-//		}
+		for (Map.Entry<String, Integer> entry : company.getDepartedDelayList().entrySet())
+		{
+			
+		    System.out.println(entry.getKey() + "/" + entry.getValue());
+		}
 	
 	}
 

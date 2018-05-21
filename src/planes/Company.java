@@ -127,8 +127,10 @@ public class Company {
 	}
 
 	public Map<String, Integer> getDepartedDelayList() {
+		
+	//	if (departedDelayList.values()) {
 		return departedDelayList;
-	}
+	}}
 
 	public Map<String, Integer> getArrivedDelayList() {
 		return arrivedDelayList;
