@@ -56,6 +56,7 @@ public class Company {
 	public void addFlight(String flightCode, String planeModel, String departureCode, String arrivalCode,
 			String dayOfTheWeek) {
 		Flight flight = new Flight(flightCode, planeModel, departureCode, arrivalCode, dayOfTheWeek);
+		flight.setCompany(this);
         
 		flights.put(flightCode, flight);
 	}
@@ -128,7 +129,7 @@ public class Company {
 
 	public Map<String, Integer> getDepartedDelayList() {
 		 Map<String, Integer> result = new TreeMap<>();
-		 for (Map.Entry<String, Integer> entry : getDepartedDelayList().entrySet()) {
+		 for (Map.Entry<String, Integer> entry : departedDelayList.entrySet()) {
 			if(entry.getValue()>15) {
 				result.put(entry.getKey(), entry.getValue());
 			}
@@ -137,7 +138,13 @@ public class Company {
 	}
 
 	public Map<String, Integer> getArrivedDelayList() {
-		return arrivedDelayList;
+			 Map<String, Integer> result = new TreeMap<>();
+			 for (Map.Entry<String, Integer> entry : arrivedDelayList.entrySet()) {
+				if(entry.getValue()>15) {
+					result.put(entry.getKey(), entry.getValue());
+				}
+			 }
+			return result;
 	}
 
 }

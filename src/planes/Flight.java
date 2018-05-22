@@ -68,5 +68,16 @@ public class Flight {
 		this.dayOfTheWeek = dayOfTheWeek;
 	}
 
-	
+	public String toString() {
+		String toString=null;
+		for (Plane plane:company.getPlanes()) {
+			if (planeModel.equals(plane.getPlaneModelCode())) {
+		
+		 toString=company.getCompanyName()+";"+flightCode+ ";" + planeModel + ";" + departureCode + ";" + arrivalCode + ";" + dayOfTheWeek+";"+plane.getNumberOfSeats();
+		continue;
+	}
+			
+		}
+	return toString;
 }
+	}
