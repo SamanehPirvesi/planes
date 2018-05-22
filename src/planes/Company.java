@@ -12,7 +12,7 @@ public class Company {
 	private PlanesWorld planesWord;
 	private Map<String, Integer> departedDelayList = new TreeMap<>();
 	private Map<String, Integer> arrivedDelayList = new TreeMap<>();
-
+	
 	public Company(String companyName, PlanesWorld planesWord) {
 
 		this.companyName = companyName;
@@ -47,9 +47,9 @@ public class Company {
 		this.flights = flights;
 	}
 
-	public void addPalne(String planeModel, int numberOfSeats) {
+	public void addPalne(String planeModel, int numberOfSeats, int counter) {
 
-		Plane plane = new Plane(planeModel, numberOfSeats);
+		Plane plane = new Plane(planeModel, numberOfSeats, counter);
 		planes.put(planeModel, plane);
 	}
 
@@ -57,7 +57,7 @@ public class Company {
 			String dayOfTheWeek) {
 		Flight flight = new Flight(flightCode, planeModel, departureCode, arrivalCode, dayOfTheWeek);
 		flight.setCompany(this);
-        
+
 		flights.put(flightCode, flight);
 	}
 
@@ -67,34 +67,30 @@ public class Company {
 
 	public boolean book(String flightCode, int numberOFPlaceToBook) {
 		String target = flights.get(flightCode).getPlaneModel();
-		try {
+		
 
 			if (target.equals(planes.get(target).getPlaneModelCode())) {
-				int i = planes.get(target).getNumberOfSeats();
+				int i = (planes.get(target).getNumberOfSeats()-planes.get(target).getCounter());
 				if (i > numberOFPlaceToBook) {
-					planes.get(target).setNumberOfSeats(i - numberOFPlaceToBook);
+					planes.get(target).setCounter(planes.get(target).getCounter()+ numberOFPlaceToBook);
 					return true;
 				} else {
 					return false;
 				}
 
 			}
-		} catch (Exception e) {
-			System.out.println("the code is not valid");
-		}
 		return false;
 	}
 
 	public int freeSeats(String flightCode) {
 		String target = flights.get(flightCode).getPlaneModel();
-		try {
+		
 
 			if (target.equals(planes.get(target).getPlaneModelCode())) {
-				return planes.get(target).getNumberOfSeats();
+				int numberOfSeat=planes.get(target).getNumberOfSeats()-planes.get(target).getCounter();
+				return numberOfSeat;
 			}
-		} catch (Exception e) {
-			System.out.println("the code for finding number of free seats is not valid");
-		}
+		
 
 		return 0;
 	}
@@ -128,23 +124,37 @@ public class Company {
 	}
 
 	public Map<String, Integer> getDepartedDelayList() {
-		 Map<String, Integer> result = new TreeMap<>();
-		 for (Map.Entry<String, Integer> entry : departedDelayList.entrySet()) {
-			if(entry.getValue()>15) {
+		Map<String, Integer> result = new TreeMap<>();
+		for (Map.Entry<String, Integer> entry : departedDelayList.entrySet()) {
+			if (entry.getValue() > 15) {
 				result.put(entry.getKey(), entry.getValue());
 			}
-		 }
+		}
 		return result;
 	}
 
 	public Map<String, Integer> getArrivedDelayList() {
-			 Map<String, Integer> result = new TreeMap<>();
-			 for (Map.Entry<String, Integer> entry : arrivedDelayList.entrySet()) {
-				if(entry.getValue()>15) {
-					result.put(entry.getKey(), entry.getValue());
+		Map<String, Integer> result = new TreeMap<>();
+		for (Map.Entry<String, Integer> entry : arrivedDelayList.entrySet()) {
+			if (entry.getValue() > 15) {
+				result.put(entry.getKey(), entry.getValue());
+			}
+		}
+		return result;
+	}
+
+	public Map<String, Integer> CriticalFlights() {
+		Map<String, Integer> ciriticalFlightsMap = new TreeMap<>();
+		for (Flight flight : flights.values()) {
+			for (Plane plane : planes.values()) {
+				if ((flight.getPlaneModel().equals(plane.getPlaneModelCode()))
+						&& (plane.getCounter() < (plane.getNumberOfSeats() * 0.3))) {
+					ciriticalFlightsMap.put(flight.getFlightCode(),( plane.getNumberOfSeats()-plane.getCounter()));
 				}
-			 }
-			return result;
+			}
+
+		}
+		return ciriticalFlightsMap;
 	}
 
 }

@@ -74,7 +74,7 @@ public class Flight {
 			if (planeModel.equals(plane.getPlaneModelCode())) {
 		
 		 toString=company.getCompanyName()+";"+flightCode+ ";" + planeModel + ";" + departureCode + ";" + arrivalCode + ";" + dayOfTheWeek+";"+plane.getNumberOfSeats();
-		continue;
+		
 	}
 			
 		}
