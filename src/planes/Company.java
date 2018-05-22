@@ -4,6 +4,9 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
+import exception.InvalidFlightCode;
+import exception.InvalidPlaneCode;
+
 public class Company {
 
 	private String companyName;
@@ -47,25 +50,39 @@ public class Company {
 		this.flights = flights;
 	}
 
-	public void addPalne(String planeModel, int numberOfSeats, int counter) {
-
+	public void addPalne(String planeModel, int numberOfSeats, int counter) throws InvalidPlaneCode {
+		if(planes.get(planeModel)!=null) {
+			throw new InvalidPlaneCode("the plane has been inserted already");
+		}
+		
 		Plane plane = new Plane(planeModel, numberOfSeats, counter);
 		planes.put(planeModel, plane);
 	}
 
 	public void addFlight(String flightCode, String planeModel, String departureCode, String arrivalCode,
-			String dayOfTheWeek) {
+			String dayOfTheWeek) throws InvalidFlightCode {
+		if(flights.get(flightCode)!=null) {
+			throw new InvalidFlightCode("the flight has been inserted already");
+		}
 		Flight flight = new Flight(flightCode, planeModel, departureCode, arrivalCode, dayOfTheWeek);
 		flight.setCompany(this);
 
 		flights.put(flightCode, flight);
 	}
 
-	public void removeFlight(String flightCode) {
+	public void removeFlight(String flightCode) throws InvalidFlightCode {
+		if(flights.get(flightCode)==null) {
+			throw new InvalidFlightCode("the flight has been removed already");
+		}
+		
 		flights.remove(flightCode);
 	}
 
-	public boolean book(String flightCode, int numberOFPlaceToBook) {
+	public boolean book(String flightCode, int numberOFPlaceToBook) throws InvalidFlightCode {
+		if(flights.get(flightCode)==null) {
+			throw new InvalidFlightCode("the flight code for book is not exist");
+		}
+		
 		String target = flights.get(flightCode).getPlaneModel();
 		
 
@@ -82,7 +99,10 @@ public class Company {
 		return false;
 	}
 
-	public int freeSeats(String flightCode) {
+	public int freeSeats(String flightCode) throws InvalidFlightCode {
+		if(flights.get(flightCode)==null) {
+			throw new InvalidFlightCode("the flight code for free seats is not exist");
+		}
 		String target = flights.get(flightCode).getPlaneModel();
 		
 
@@ -95,31 +115,34 @@ public class Company {
 		return 0;
 	}
 
-	public void departedFlight(String flightCode, int delay) {
-		try {
+	public void departedFlight(String flightCode, int delay) throws InvalidFlightCode {
+		if(flights.get(flightCode)==null) {
+			throw new InvalidFlightCode("the flight code for define the  departed delay is not exist");
+		}
+		
 			if (flightCode.equals(flights.get(flightCode).getFlightCode())) {
 				if (delay > 0) {
 					departedDelayList.put(flightCode, delay);
 
 				}
 			}
-		} catch (Exception e) {
-			System.out.println("the flight code is not correct");
-		}
+		
 
 	}
 
-	public void arrivedFlight(String flightCode, int delay) {
-		try {
+	public void arrivedFlight(String flightCode, int delay) throws InvalidFlightCode {
+		if(flights.get(flightCode)==null) {
+			throw new InvalidFlightCode("the flight code for define the  arrived delay is not exist");
+		}
+		
+	
 			if (flightCode.equals(flights.get(flightCode).getFlightCode())) {
 				if (delay > 0) {
 					arrivedDelayList.put(flightCode, delay);
 				}
 
 			}
-		} catch (Exception e) {
-			System.out.println("the flight code is not correct");
-		}
+		
 
 	}
 

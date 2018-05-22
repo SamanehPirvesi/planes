@@ -1,6 +1,8 @@
 import java.util.Map;
 
 import exception.InvalidCode;
+import exception.InvalidFlightCode;
+import exception.InvalidPlaneCode;
 import planes.Airport;
 import planes.Company;
 import planes.Flight;
@@ -26,14 +28,43 @@ public class ExampleMain {
 			System.out.println(ex.getMessage());
 		}
 		//planesWorld.removeAirport("a320");
+		try {
+		company.addPalne("Boeing737", 370 , 0);
 		company.addPalne("Boeing737", 370 , 0);
 		company.addPalne("Boeing777", 460,0);
+		}catch (InvalidPlaneCode ex) {
+			System.out.println(ex.getMessage());
+		}
+		try {
+		company.addFlight("aav","Boeing737", "a320", "a742", "monday");
 		company.addFlight("aav","Boeing737", "a320", "a742", "monday");
 		company.addFlight("afv","Boeing777", "a560", "a457", "friday");
+		}catch(InvalidFlightCode ex) {
+			System.out.println(ex.getMessage());
+		}
+		try {
 		company.book("aav", 270);
+		company.book("abv", 270);
+		}catch(InvalidFlightCode ex) {
+			System.out.println(ex.getMessage());
+		}
+		try {
 		company.departedFlight("aav", 30);
-		company.arrivedFlight("afv",40);
-		//company.removeFlight("aav");
+		company.departedFlight("axv", 30);
+		}catch(InvalidFlightCode ex) {
+			System.out.println(ex.getMessage());
+		}
+		try {
+		company.arrivedFlight("aav",40);
+		company.arrivedFlight("hbv",40);
+		}catch(InvalidFlightCode ex) {
+			System.out.println(ex.getMessage());
+		}
+		try {
+		company.removeFlight("aas");
+		}catch(InvalidFlightCode ex) {
+			System.out.println(ex.getMessage());
+		}
 		for (Airport airport:planesWorld.getAirports()) {
 		 System.out.println(company.getCompanyName()+"  "+airport.getAirportCode());
 		}
@@ -52,7 +83,12 @@ public class ExampleMain {
 			System.out.println(flight.getFlightCode()+" "+flight.getPlaneModel()+" "+flight.getDepartureCode()+" "+flight.getArrivalCode()+flight.getDayOfTheWeek());
 			
 		}}
+		try {
 		System.out.println(company.freeSeats("aav"));
+		System.out.println(company.freeSeats("anv"));
+		}catch(InvalidFlightCode ex) {
+			System.out.println(ex.getMessage());
+		}
 		for (Map.Entry<String, Integer> entry : company.getDepartedDelayList().entrySet())
 		{
 			
