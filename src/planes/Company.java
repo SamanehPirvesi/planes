@@ -3,6 +3,8 @@ package planes;
 import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import exception.InvalidFlightCode;
 import exception.InvalidPlaneCode;
@@ -52,21 +54,19 @@ public class Company {
 
 	public void addPalne(String planeModel, int numberOfSeats, int counter) throws InvalidPlaneCode {
 		if(planes.get(planeModel)!=null) {
-			throw new InvalidPlaneCode("the plane has been inserted already");
+		throw new InvalidPlaneCode("the plane has been inserted already");
 		}
-		
 		Plane plane = new Plane(planeModel, numberOfSeats, counter);
 		planes.put(planeModel, plane);
 	}
 
 	public void addFlight(String flightCode, String planeModel, String departureCode, String arrivalCode,
-			String dayOfTheWeek) throws InvalidFlightCode {
+		String dayOfTheWeek) throws InvalidFlightCode {
 		if(flights.get(flightCode)!=null) {
 			throw new InvalidFlightCode("the flight has been inserted already");
 		}
 		Flight flight = new Flight(flightCode, planeModel, departureCode, arrivalCode, dayOfTheWeek);
 		flight.setCompany(this);
-
 		flights.put(flightCode, flight);
 	}
 
@@ -74,19 +74,15 @@ public class Company {
 		if(flights.get(flightCode)==null) {
 			throw new InvalidFlightCode("the flight has been removed already");
 		}
-		
-		flights.remove(flightCode);
+			flights.remove(flightCode);
 	}
 
 	public boolean book(String flightCode, int numberOFPlaceToBook) throws InvalidFlightCode {
 		if(flights.get(flightCode)==null) {
 			throw new InvalidFlightCode("the flight code for book is not exist");
 		}
-		
-		String target = flights.get(flightCode).getPlaneModel();
-		
-
-			if (target.equals(planes.get(target).getPlaneModelCode())) {
+				String target = flights.get(flightCode).getPlaneModel();
+				if (target.equals(planes.get(target).getPlaneModelCode())) {
 				int i = (planes.get(target).getNumberOfSeats()-planes.get(target).getCounter());
 				if (i > numberOFPlaceToBook) {
 					planes.get(target).setCounter(planes.get(target).getCounter()+ numberOFPlaceToBook);
@@ -94,24 +90,20 @@ public class Company {
 				} else {
 					return false;
 				}
-
 			}
 		return false;
-	}
+			}
 
 	public int freeSeats(String flightCode) throws InvalidFlightCode {
 		if(flights.get(flightCode)==null) {
 			throw new InvalidFlightCode("the flight code for free seats is not exist");
 		}
 		String target = flights.get(flightCode).getPlaneModel();
-		
-
-			if (target.equals(planes.get(target).getPlaneModelCode())) {
+				if (target.equals(planes.get(target).getPlaneModelCode())) {
 				int numberOfSeat=planes.get(target).getNumberOfSeats()-planes.get(target).getCounter();
 				return numberOfSeat;
 			}
 		
-
 		return 0;
 	}
 
@@ -119,64 +111,71 @@ public class Company {
 		if(flights.get(flightCode)==null) {
 			throw new InvalidFlightCode("the flight code for define the  departed delay is not exist");
 		}
-		
-			if (flightCode.equals(flights.get(flightCode).getFlightCode())) {
+				if (flightCode.equals(flights.get(flightCode).getFlightCode())) {
 				if (delay > 0) {
 					departedDelayList.put(flightCode, delay);
-
 				}
 			}
-		
-
-	}
+			}
 
 	public void arrivedFlight(String flightCode, int delay) throws InvalidFlightCode {
 		if(flights.get(flightCode)==null) {
 			throw new InvalidFlightCode("the flight code for define the  arrived delay is not exist");
 		}
-		
-	
-			if (flightCode.equals(flights.get(flightCode).getFlightCode())) {
+				if (flightCode.equals(flights.get(flightCode).getFlightCode())) {
 				if (delay > 0) {
 					arrivedDelayList.put(flightCode, delay);
 				}
-
 			}
-		
-
-	}
+			}
 
 	public Map<String, Integer> getDepartedDelayList() {
 		Map<String, Integer> result = new TreeMap<>();
-		for (Map.Entry<String, Integer> entry : departedDelayList.entrySet()) {
-			if (entry.getValue() > 15) {
-				result.put(entry.getKey(), entry.getValue());
+//		for (Map.Entry<String, Integer> entry : departedDelayList.entrySet()) {
+//			if (entry.getValue() > 15) {
+//				result.put(entry.getKey(), entry.getValue());
+//			}
+//		}
+		departedDelayList.entrySet().stream().forEach(d->{
+			if(d.getValue()>15) {
+				result.put(d.getKey(), d.getValue());
 			}
-		}
+		});
 		return result;
 	}
 
 	public Map<String, Integer> getArrivedDelayList() {
 		Map<String, Integer> result = new TreeMap<>();
-		for (Map.Entry<String, Integer> entry : arrivedDelayList.entrySet()) {
-			if (entry.getValue() > 15) {
-				result.put(entry.getKey(), entry.getValue());
-			}
-		}
+//		for (Map.Entry<String, Integer> entry : arrivedDelayList.entrySet()) {
+//			if (entry.getValue() > 15) {
+//				result.put(entry.getKey(), entry.getValue());
+//			}
+//		}
+	arrivedDelayList.entrySet().stream().forEach(a->{
+		if(a.getValue()>15)
+				{result.put(a.getKey(),a.getValue());}
+	});
 		return result;
 	}
 
 	public Map<String, Integer> CriticalFlights() {
 		Map<String, Integer> ciriticalFlightsMap = new TreeMap<>();
-		for (Flight flight : flights.values()) {
-			for (Plane plane : planes.values()) {
-				if ((flight.getPlaneModel().equals(plane.getPlaneModelCode()))
-						&& (plane.getCounter() < (plane.getNumberOfSeats() * 0.3))) {
-					ciriticalFlightsMap.put(flight.getFlightCode(),( plane.getNumberOfSeats()-plane.getCounter()));
-				}
-			}
-
-		}
+//		for (Flight flight : flights.values()) {
+//		for (Plane plane : planes.values()) {
+//		if ((flight.getPlaneModel().equals(plane.getPlaneModelCode()))
+//		&& (plane.getCounter() < (plane.getNumberOfSeats() * 0.3))) {
+//		ciriticalFlightsMap.put(flight.getFlightCode(),( plane.getNumberOfSeats()-plane.getCounter()));
+//				}
+//			}
+//		}
+		flights.values().stream().forEach(f -> {
+		      planes.values().forEach(p -> {
+		        if ((f.getPlaneModel().equals(p.getPlaneModelCode()))&& (p.getCounter() < (p.getNumberOfSeats() * 0.3))) {
+		           ciriticalFlightsMap.put(f.getFlightCode(),( p.getNumberOfSeats()-p.getCounter()));
+		        }
+		      });      
+		    });
+				
 		return ciriticalFlightsMap;
 	}
 

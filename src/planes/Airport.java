@@ -3,6 +3,7 @@ package planes;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Airport {
 	private String airportCode;
@@ -30,25 +31,30 @@ public class Airport {
 	}
 
 	public List<Flight> getArrived() {
-		List<Flight> listOfArrived = new ArrayList<>();
-		for (Flight flight : company.getFlights()) {
-			if (flight.getArrivalCode().equals(airportCode)) {
-				listOfArrived.add(flight);
 
-			}
-		}
-
+		List<Flight> listOfArrived = company.getFlights().stream()
+				.filter(c->c.getArrivalCode().equals(airportCode))
+				.collect(Collectors.toList());
+//		List<Flight> listOfArrived = new ArrayList<>();
+//		for (Flight flight : company.getFlights()) {
+//			if (flight.getArrivalCode().equals(airportCode)) {
+//				listOfArrived.add(flight);
+//			}
+//			}
 		return listOfArrived;
 	}
-	
 	public List<Flight> getDepartures() {
-		List<Flight> listOfDepartures=new ArrayList<>();
-		for (Flight flight : company.getFlights()) {
-			if (flight.getDepartureCode().equals(airportCode)) {
-				listOfDepartures.add(flight);
-
-			}
-		}
+		List<Flight> listOfDepartures= company.getFlights().stream()
+				.filter(f->f.getDepartureCode().equals(airportCode))
+				.collect(Collectors.toList());
+		
+//		List<Flight> listOfDepartures=new ArrayList<>();
+//		for (Flight flight : company.getFlights()) {
+//			if (flight.getDepartureCode().equals(airportCode)) {
+//				listOfDepartures.add(flight);
+//
+//			}
+//		}
 
 		return listOfDepartures;
 	}

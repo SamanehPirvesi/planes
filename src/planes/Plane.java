@@ -7,7 +7,6 @@ public class Plane {
 	private int counter;
 
 	public Plane(String planeModelCode, int numberOfSeats , int counter) {
-
 		this.planeModelCode = planeModelCode;
 		this.numberOfSeats = numberOfSeats;
 		this.counter=counter;

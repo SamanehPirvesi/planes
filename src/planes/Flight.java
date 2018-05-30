@@ -70,14 +70,12 @@ public class Flight {
 
 	public String toString() {
 		String toString=null;
-		for (Plane plane:company.getPlanes()) {
-			if (planeModel.equals(plane.getPlaneModelCode())) {
+//		for (Plane plane:company.getPlanes()) {
+//		if (planeModel.equals(plane.getPlaneModelCode())) {
+//	    toString=company.getCompanyName()+";"+flightCode+ ";" + planeModel + ";" + departureCode + ";" + arrivalCode + ";" + dayOfTheWeek+";"+plane.getNumberOfSeats();
+//		}
+//					}
+		return toString;
 		
-		 toString=company.getCompanyName()+";"+flightCode+ ";" + planeModel + ";" + departureCode + ";" + arrivalCode + ";" + dayOfTheWeek+";"+plane.getNumberOfSeats();
-		
-	}
-			
-		}
-	return toString;
 }
 	}
