@@ -70,11 +70,16 @@ public class Flight {
 
 	public String toString() {
 		String toString=null;
-//		for (Plane plane:company.getPlanes()) {
-//		if (planeModel.equals(plane.getPlaneModelCode())) {
-//	    toString=company.getCompanyName()+";"+flightCode+ ";" + planeModel + ";" + departureCode + ";" + arrivalCode + ";" + dayOfTheWeek+";"+plane.getNumberOfSeats();
-//		}
-//					}
+		for (Plane plane:company.getPlanes()) {
+		if (planeModel.equals(plane.getPlaneModelCode())) {
+	    toString=company.getCompanyName()+";"+flightCode+ ";" + planeModel + ";" + departureCode + ";" + arrivalCode + ";" + dayOfTheWeek+";"+plane.getNumberOfSeats();
+		}
+					}
+//		company.getPlanes().stream().forEach(c->{
+//			if (planeModel.equals(c.getPlaneModelCode())) {
+//			    toString=company.getCompanyName()+";"+flightCode+ ";" + planeModel + ";" + departureCode + ";" + arrivalCode + ";" + dayOfTheWeek+";"+c.getNumberOfSeats();
+//				}});
+//		
 		return toString;
 		
 }
